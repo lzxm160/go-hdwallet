@@ -209,3 +209,6 @@ func ByteCheck(dbin []byte) error {
 	}
 	return nil
 }
+func main() {
+	
+}
