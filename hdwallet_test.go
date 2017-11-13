@@ -3,6 +3,7 @@ package hdwallet
 import (
 	"encoding/hex"
 	"testing"
+	"fmt"
 )
 
 // implements https://github.com/bitcoin/bips/blob/master/bip-0032.mediawiki#test-vectors
@@ -163,7 +164,10 @@ func TestAddress(t *testing.T) {
 	expected_addr := "1AEg9dFEw29kMgaN4BNHALu7AzX5XUfzSU"
 	if addr != expected_addr {
 		t.Errorf("\n%s\nshould be\n%s", addr, expected_addr)
+	}else{
+		fmt.Println(addr)
 	}
+
 }
 
 func TestStringCheck(t *testing.T) {
