@@ -1,5 +1,17 @@
 package bip39
+// The wordlist to use
+var WordList = EnglishWordList
 
+var ReverseWordMap map[string]int = map[string]int{}
+
+func init() {
+	for i, v := range WordList {
+		ReverseWordMap[v] = i
+	}
+}
+
+// Language-specific wordlists
+var EnglishWordList = strings.Split(Mnemonic, "\n")
 const(
 	Mnemonic=
 `abandon
