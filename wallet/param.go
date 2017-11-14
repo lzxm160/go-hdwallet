@@ -3,7 +3,7 @@ package wallet
 import (
 	"encoding/hex"
 	"errors"
-	"os"
+	// "os"
 	"regexp"
 )
 
