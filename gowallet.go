@@ -4,7 +4,7 @@ import (
 	"flag"
 	"fmt"
 	"os"
-	"./view"
+	// "./view"
 	"./wallet"
 )
 
@@ -17,7 +17,7 @@ func main() {
 			return
 		}
 	} else {
-		view.ShowSplashView(view.SplashStartView)
+		// view.ShowSplashView(view.SplashStartView)
 
 		var ws []*wallet.Wallet
 		if !wallet.IsFileExists() {
@@ -39,38 +39,59 @@ func main() {
 			ws = wf.Wallets
 		}
 
-		showUI(ws)
+		// showUI(ws)
 	}
 }
 
-func showUI(ws []*wallet.Wallet) {
+// func showUI(ws []*wallet.Wallet) {
 
-	accountView := view.NewAccountView(ws)
-	accountView.Show()
+// 	accountView := view.NewAccountView(ws)
+// 	accountView.Show()
 
-	for accountView.Data != nil {
-		cmd := accountView.Data.(string)
-		if cmd == "quit" {
+// 	for accountView.Data != nil {
+// 		cmd := accountView.Data.(string)
+// 		if cmd == "quit" {
+// 			break
+// 		}
+// 		tipView := view.NewTipView(cmd)
+// 		if tipView != nil {
+// 			tipView.Show()
+// 		}
+// 		accountView.Show()
+// 	}
+// }
+
+func InputNewParameters(chance uint32) (wp *WalletParam, err error) {
+
+	// color.HiYellow(createWalletTip)
+
+	wp = new(WalletParam)
+	for i := uint32(0); i < chance; i++ {
+		if err = wp.inputSecret(); err == nil {
 			break
 		}
-		tipView := view.NewTipView(cmd)
-		if tipView != nil {
-			tipView.Show()
-		}
-		accountView.Show()
 	}
+	if err != nil {
+		return
+	}
+	for i := uint32(0); i < chance; i++ {
+		if err = wp.inputSalt(); err == nil {
+			break
+		}
+	}
+	return
 }
 
 // create wallets by secret and salt
 func createWallets(start, count uint32) (ws []*wallet.Wallet, err error) {
-	view.ShowSplashView(view.SplashCreateView)
+	// view.ShowSplashView(view.SplashCreateView)
 
 	// create wallets
-	wp, err := view.InputNewParameters(3)
+	wp, err := InputNewParameters(3)
 	if err != nil {
 		return
 	}
-	//wp := view.WalletParam{Secret:"https://github.com/aiportal", Salt:"gowallet"}
+	wp := view.WalletParam{Secret:"https://github.com/aiportal", Salt:"gowallet"}
 
 	wa, err := wallet.NewWalletAccount(wp.SecretBytes(), wp.SaltBytes())
 	if err != nil {
@@ -101,9 +122,10 @@ func parseParams() (number uint, vanity, export string) {
 
 func generateWallets(number uint32, vanity, export string) (err error) {
 
-	view.ShowSplashView(view.SplashStartView)
-	view.ShowSplashView(view.SplashCreateView)
-	wp, err := view.InputNewParameters(3)
+	// view.ShowSplashView(view.SplashStartView)
+	// view.ShowSplashView(view.SplashCreateView)
+	// wp, err := view.InputNewParameters(3)
+	wp, err := InputNewParameters(3)
 	if err != nil {
 		return
 	}
