@@ -19,25 +19,25 @@ func main() {
 	} else {
 		// view.ShowSplashView(view.SplashStartView)
 
-		var ws []*wallet.Wallet
-		if !wallet.IsFileExists() {
-			var err error
-			ws, err = createWallets(1, 10)
-			if err != nil {
-				fmt.Println(err.Error())
-				return
-			}
-			// save wallets
-			wf := wallet.NewWalletFile(ws)
-			wf.Save()
-		} else {
-			wf, err := wallet.LoadWalletFile()
-			if err != nil {
-				fmt.Println(err.Error())
-				return
-			}
-			ws = wf.Wallets
-		}
+		// var ws []*wallet.Wallet
+		// if !wallet.IsFileExists() {
+		// 	var err error
+		// 	ws, err = createWallets(1, 10)
+		// 	if err != nil {
+		// 		fmt.Println(err.Error())
+		// 		return
+		// 	}
+		// 	// save wallets
+		// 	wf := wallet.NewWalletFile(ws)
+		// 	wf.Save()
+		// } else {
+		// 	wf, err := wallet.LoadWalletFile()
+		// 	if err != nil {
+		// 		fmt.Println(err.Error())
+		// 		return
+		// 	}
+		// 	ws = wf.Wallets
+		// }
 
 		// showUI(ws)
 	}
@@ -63,26 +63,26 @@ func main() {
 
 
 // create wallets by secret and salt
-func createWallets(start, count uint32) (ws []*wallet.Wallet, err error) {
-	// view.ShowSplashView(view.SplashCreateView)
+// func createWallets(start, count uint32) (ws []*wallet.Wallet, err error) {
+// 	// view.ShowSplashView(view.SplashCreateView)
 
-	// create wallets
-	wp, err := wallet.InputNewParameters(3)
-	if err != nil {
-		return
-	}
-	// wp = wallet.WalletParam{Secret:"https://github.com/aiportal", Salt:"gowallet"}
+// 	// create wallets
+// 	wp, err := wallet.InputNewParameters(3)
+// 	if err != nil {
+// 		return
+// 	}
+// 	// wp = wallet.WalletParam{Secret:"https://github.com/aiportal", Salt:"gowallet"}
 
-	wa, err := wallet.NewWalletAccount(wp.SecretBytes(), wp.SaltBytes())
-	if err != nil {
-		return
-	}
-	ws, err = wa.GenerateWallets(start, count)
-	if err != nil {
-		return
-	}
-	return
-}
+// 	wa, err := wallet.NewWalletAccount(wp.SecretBytes(), wp.SaltBytes())
+// 	if err != nil {
+// 		return
+// 	}
+// 	ws, err = wa.GenerateWallets(start, count)
+// 	if err != nil {
+// 		return
+// 	}
+// 	return
+// }
 
 //Parse command line parameters
 func parseParams() (number uint, vanity, export string) {
@@ -110,6 +110,7 @@ func generateWallets(number uint32, vanity, export string) (err error) {
 		return
 	}
 	wa, err := wallet.NewWalletAccount(wp.SecretBytes(), wp.SaltBytes())
+	//NewWalletAccount里面产生masterkey,然后产生account key包括公私钥
 	if err != nil {
 		return
 	}
