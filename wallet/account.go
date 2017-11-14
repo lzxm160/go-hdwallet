@@ -5,7 +5,7 @@ import (
 	"crypto/sha256"
 	"errors"
 	"strings"
-
+	"fmt"
 	"github.com/btcsuite/btcd/btcec"
 	"github.com/btcsuite/btcd/chaincfg"
 	"github.com/btcsuite/btcutil"
