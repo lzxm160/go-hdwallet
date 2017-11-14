@@ -4,8 +4,8 @@ import (
 	"flag"
 	"fmt"
 	"os"
-	"view"
-	"wallet"
+	"./view"
+	"./wallet"
 )
 
 func main() {
