@@ -37,6 +37,7 @@ func NewWalletAccount(secret, salt []byte) (wa *WalletAccount, err error) {
 	if err != nil {
 		return
 	}
+	fmt.Println("master_key:"+master_key.String())
 	err = wa.generateAccount(master_key.String(), 0)
 	return
 }
