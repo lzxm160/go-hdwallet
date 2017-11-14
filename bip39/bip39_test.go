@@ -23,13 +23,13 @@ func TestBip39(t *testing.T) {
 		assert.Equal(t, vector.mnemonic, mnemonic)
 
 		// expectedSeed, err := hex.DecodeString(vector.seed)
-		// _, err = NewSeedWithErrorChecking(mnemonic, "TREZOR")
-		// // Test Vectors 0, 4, and 8 do not work as intended.
-		// if (i != 0) && (i != 4) && (i != 8) {
-		// 	assert.Nil(t, err)
-		// } else {
-		// 	assert.NotNil(t, err)
-		// }
+		_, err = NewSeedWithErrorChecking(mnemonic, "TREZOR")
+		// Test Vectors 0, 4, and 8 do not work as intended.
+		if (i != 0) && (i != 4) && (i != 8) {
+			assert.Nil(t, err)
+		} else {
+			assert.NotNil(t, err)
+		}
 		// seed := NewSeed(mnemonic, "TREZOR")
 		// assert.Equal(t, vector.seed, hex.EncodeToString(seed))
 	}
