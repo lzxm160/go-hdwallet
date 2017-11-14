@@ -71,7 +71,7 @@ func createWallets(start, count uint32) (ws []*wallet.Wallet, err error) {
 	if err != nil {
 		return
 	}
-	wp = wallet.WalletParam{Secret:"https://github.com/aiportal", Salt:"gowallet"}
+	// wp = wallet.WalletParam{Secret:"https://github.com/aiportal", Salt:"gowallet"}
 
 	wa, err := wallet.NewWalletAccount(wp.SecretBytes(), wp.SaltBytes())
 	if err != nil {
