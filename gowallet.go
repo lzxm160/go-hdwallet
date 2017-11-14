@@ -61,33 +61,13 @@ func main() {
 // 	}
 // }
 
-func InputNewParameters(chance uint32) (wp *wallet.WalletParam, err error) {
-
-	// color.HiYellow(createWalletTip)
-
-	wp = new(wallet.WalletParam)
-	for i := uint32(0); i < chance; i++ {
-		if err = wp.inputSecret("testsecret"); err == nil {
-			break
-		}
-	}
-	if err != nil {
-		return
-	}
-	for i := uint32(0); i < chance; i++ {
-		if err = wp.inputSalt("testsalt"); err == nil {
-			break
-		}
-	}
-	return
-}
 
 // create wallets by secret and salt
 func createWallets(start, count uint32) (ws []*wallet.Wallet, err error) {
 	// view.ShowSplashView(view.SplashCreateView)
 
 	// create wallets
-	wp, err := InputNewParameters(3)
+	wp, err := wallet.InputNewParameters(3)
 	if err != nil {
 		return
 	}
@@ -125,7 +105,7 @@ func generateWallets(number uint32, vanity, export string) (err error) {
 	// view.ShowSplashView(view.SplashStartView)
 	// view.ShowSplashView(view.SplashCreateView)
 	// wp, err := view.InputNewParameters(3)
-	wp, err := InputNewParameters(3)
+	wp, err := wallet.InputNewParameters(3)
 	if err != nil {
 		return
 	}
