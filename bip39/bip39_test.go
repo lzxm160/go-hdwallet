@@ -6,7 +6,7 @@ import (
 	"strings"
 	"github.com/stretchr/testify/assert"
 )
-WordList := strings.Split(Mnemonic, "\n")
+var WordList = strings.Split(Mnemonic, "\n")
 type Vector struct {
 	entropy  string
 	mnemonic string
