@@ -1,41 +1,37 @@
-Go HD Wallet tools
-------------------
+# gowallet
 
- - BIP32 - https://github.com/bitcoin/bips/blob/master/bip-0032.mediawiki
- - Documentation - http://godoc.org/github.com/WeMeetAgain/go-hdwallet
+A console bitcoin wallet application written in golang. 
 
-###Get this library
+![GoWallet Account View](https://raw.githubusercontent.com/aiportal/gowallet/master/_doc/account.png)
 
-        go get github.com/WeMeetAgain/go-hdwallet
+**GoWallet uses a secret phrase and a salt phrase to generate your safe wallets.**  
+Project location: https://github.com/aiportal/gowallet
 
-###Example
+**GoWallet is a safe brain wallet for bitcoin.**  
+  Secret phrase at least 16 characters.  
+  Salt phrase at least 6 characters.  
 
-        // Generate a random 256 bit seed
-        seed, err := hdwallet.GenSeed(256)
-        
-        // Create a master private key
-        masterprv := hdwallet.MasterKey(seed)
-        
-        // Convert a private key to public key
-        masterpub := masterprv.Pub()
-        
-        // Generate new child key based on private or public key
-        childprv, err := masterprv.Child(0)
-        childpub, err := masterpub.Child(0)
-        
-        // Create bitcoin address from public key
-        address := childpub.Address()
+  Secret phrases should contain uppercase letters, lowercase letters, numbers, and special characters.  
+  Both secret phrases and salt phrases can use hexadecimal notation such as \xff or \xFF to represent a character.   
 
-        // Convenience string -> string Child and ToAddress functions
-        walletstring := childpub.String()
-        childstring, err := hdwallet.StringChild(walletstring,0)
-        childaddress, err := hdwallet.StringAddress(childstring)
+**It is recommended that use a more complex secret and put it on paper.**  
+**It's also recommended that keep your salt in mind.**  
 
-###Dependencies
+Donations are welcome at <code>[<b>1BTC</b>zvzTn7QYBwFkRRkXGcVPodwrYoQyAq](https://blockchain.info/address/1BTCzvzTn7QYBwFkRRkXGcVPodwrYoQyAq)</code>
 
-        go get code.google.com/p/go.crypto/ripemd160
-        go get github.com/conformal/btcutil
-        go get github.com/conformal/btcec
+![GoWallet Encryption Process](https://raw.githubusercontent.com/aiportal/gowallet/master/_doc/encryption.png)
 
-###Donate
-If you found this useful, consider donating to 15bi481QnYeMXEcS3nUUBXWFq2XqJBFCRQ
+
+#### Advanced usage
+
+You can export bulk wallets using the command line.
+
+  -n or -number uint  
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    Number of wallets to generate.   
+  -v or -vanity string  
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    Find vanity wallet address matching. (prefix)  
+  -e or -export string  
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    Export wallets(child number, private key and address) in WIF format.
