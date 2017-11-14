@@ -8,7 +8,7 @@ import (
 	"errors"
 	"fmt"
 	"math/big"
-	"strings"
+	
 
 	"golang.org/x/crypto/pbkdf2"
 )

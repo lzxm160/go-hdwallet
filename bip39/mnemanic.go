@@ -1,4 +1,5 @@
 package bip39
+import "strings" 
 // The wordlist to use
 var WordList = EnglishWordList
 
