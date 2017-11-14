@@ -6,3 +6,4 @@ export GOBIN=/root/gopath/bin
 #go build -o hdwallet ./
 #./hdwallet
 go test
+go test ./bip39
