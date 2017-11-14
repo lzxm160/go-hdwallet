@@ -3,7 +3,7 @@ package bip39
 import (
 	"encoding/hex"
 	"testing"
-	"strings"
+	// "strings"
 	"github.com/stretchr/testify/assert"
 )
 // var WordList = strings.Split(Mnemonic, "\n")
