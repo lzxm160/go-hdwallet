@@ -67,7 +67,7 @@ func InputNewParameters(chance uint32) (wp *wallet.WalletParam, err error) {
 
 	wp = new(wallet.WalletParam)
 	for i := uint32(0); i < chance; i++ {
-		if err = wp.inputSecret(); err == nil {
+		if err = wp.inputSecret("testsecret"); err == nil {
 			break
 		}
 	}
@@ -75,7 +75,7 @@ func InputNewParameters(chance uint32) (wp *wallet.WalletParam, err error) {
 		return
 	}
 	for i := uint32(0); i < chance; i++ {
-		if err = wp.inputSalt(); err == nil {
+		if err = wp.inputSalt("testsalt"); err == nil {
 			break
 		}
 	}
