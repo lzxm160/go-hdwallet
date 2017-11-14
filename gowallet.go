@@ -61,11 +61,11 @@ func main() {
 // 	}
 // }
 
-func InputNewParameters(chance uint32) (wp *WalletParam, err error) {
+func InputNewParameters(chance uint32) (wp *wallet.WalletParam, err error) {
 
 	// color.HiYellow(createWalletTip)
 
-	wp = new(WalletParam)
+	wp = new(wallet.WalletParam)
 	for i := uint32(0); i < chance; i++ {
 		if err = wp.inputSecret(); err == nil {
 			break
@@ -91,7 +91,7 @@ func createWallets(start, count uint32) (ws []*wallet.Wallet, err error) {
 	if err != nil {
 		return
 	}
-	wp := view.WalletParam{Secret:"https://github.com/aiportal", Salt:"gowallet"}
+	wp = wallet.WalletParam{Secret:"https://github.com/aiportal", Salt:"gowallet"}
 
 	wa, err := wallet.NewWalletAccount(wp.SecretBytes(), wp.SaltBytes())
 	if err != nil {
