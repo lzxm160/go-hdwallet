@@ -38,8 +38,8 @@ func NewWalletAccount(secret, salt []byte) (wa *WalletAccount, err error) {
 		return
 	}
 	fmt.Println("master_key:"+master_key.String())
-	err = wa.generateAccount(master_key.String(), 0)
-	// err = wa.generateAccount(master_key.String(), 1)
+	// err = wa.generateAccount(master_key.String(), 0)
+	err = wa.generateAccount(master_key.String(), 1)
 	return
 }
 
