@@ -39,7 +39,7 @@ func NewWalletAccount(secret, salt []byte) (wa *WalletAccount, err error) {
 	}
 	fmt.Println("master_key:"+master_key.String())
 	// err = wa.generateAccount(master_key.String(), 0)
-	err = wa.generateAccount(master_key.String(), 1)
+	err = wa.generateAccount(master_key.String(), 2)//LTC
 	return
 }
 
@@ -104,7 +104,7 @@ func (wa *WalletAccount) generateAccount(masterKey string, k uint32) (err error)
 	if err != nil {
 		return
 	}
-	coin_type, err := purpose.Child(hardened + 60)
+	coin_type, err := purpose.Child(hardened + 0)
 	if err != nil {
 		return
 	}
