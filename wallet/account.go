@@ -104,7 +104,7 @@ func (wa *WalletAccount) generateAccount(masterKey string, k uint32) (err error)
 	if err != nil {
 		return
 	}
-	coin_type, err := purpose.Child(hardened + 0)
+	coin_type, err := purpose.Child(hardened + 2)
 	if err != nil {
 		return
 	}
