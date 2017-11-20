@@ -2,6 +2,7 @@ package main
 /* 
 #cgo  CFLAGS:  -I  /root/bip44cxx 
 #cgo  LDFLAGS:  -L /root/bip44cxx  -lbip44wallet -lbitcoin -lbitcoin-client
+#include <stdlib.h>
 #include "interface.h" 
 */  
 import "C"    
@@ -10,8 +11,218 @@ import (
 	"fmt"
 	"os"
 	// "./view"
+	"unsafe"
 	"./wallet"
 )
+type GoWallet struct {
+     cxxwallet C.voidstar;
+}
+type Prefixes struct {
+    bip44_code uint32
+	HDprivate uint32
+	HDpublic uint32
+	P2KH uint32
+	P2SH uint32
+}
+func (p *Prefixes)setPrefixes(coin string){
+	// Prefixes BTC =  {0x80000000, 0x0488ADE4, 0x0488B21E, 0x00, 0x05};
+	// Prefixes tBTC = {0x80000001, 0x04358394, 0x043587CF, 0x6f, 0xC4};
+	// Prefixes LTC =  {0x80000002, 0x0488ADE4, 0x0488B21E, 0x30, 0x32};
+	// Prefixes tLTC = {0x80000001, 0x04358394, 0x04358394, 0x6f, 0xC0};
+	// Prefixes POT =  {0x80000081, 0x0488ADE4, 0x0488B21E, 55, 0x05};
+	if(coin == "BTC"){
+		p.bip44_code=0x80000000
+		p.HDprivate=0x0488ADE4
+		p.HDpublic=0x0488B21E
+		p.P2KH=0x00
+		p.P2SH=0x05
+	}else if(coin == "tBTC"){
+		p.bip44_code=0x80000001
+		p.HDprivate=0x04358394
+		p.HDpublic=0x043587CF
+		p.P2KH=0x6f
+		p.P2SH=0xC4
+	}else if(coin == "LTC"){
+		p.bip44_code=0x80000002
+		p.HDprivate=0x0488ADE4
+		p.HDpublic=0x0488B21E
+		p.P2KH=0x30
+		p.P2SH=0x32
+	} else if(coin == "tLTC"){
+		p.bip44_code=0x80000001
+		p.HDprivate=0x04358394
+		p.HDpublic=0x04358394
+		p.P2KH=0x6f
+		p.P2SH=0xC0
+	} else if(coin=="POT"){
+		p.bip44_code=0x80000081
+		p.HDprivate=0x0488ADE4
+		p.HDpublic=0x0488B21E
+		p.P2KH=55
+		p.P2SH=0x05
+	}else{
+		p.bip44_code=0x80000000
+		p.HDprivate=0x0488ADE4
+		p.HDpublic=0x0488B21E
+		p.P2KH=0x00
+		p.P2SH=0x05
+	}
+}
+func New()(GoWallet){
+     var ret GoWallet;
+     ret.cxxwallet = C.walletInit();
+     return ret;
+}
+func New1(mnemonic string)(GoWallet){
+     var ret GoWallet;
+     ret.cxxwallet = C.walletInitFromMnemonic(C.CString(mnemonic));
+     return ret;
+}
+func New2(coin_code Prefixes)(GoWallet){
+     var ret GoWallet;
+     CPrefixes := *(*C.struct_Prefixes)(unsafe.Pointer(&coin_code))
+     ret.cxxwallet = C.walletInitFromCointype(CPrefixes);
+     return ret;
+}
+func New3(mnemonic string,coin_code Prefixes)(GoWallet){
+     var ret GoWallet;
+     CPrefixes := *(*C.struct_Prefixes)(unsafe.Pointer(&coin_code))
+     ret.cxxwallet = C.walletInitFromCointypeAndMnemonic(C.CString(mnemonic),CPrefixes);
+     return ret;
+}
+// voidstar walletInitFromCointype(Prefixes coin_code);
+// voidstar walletInitFromCointypeAndMnemonic(const char* mnemonicSeed, Prefixes coin_code);
+func (f GoWallet)Free(){
+     C.walletFree(f.cxxwallet)
+}
+func (f GoWallet)getMnemonic()string{
+	csRet:=C.getMnemonic(f.cxxwallet)
+	// fmt.Printf("fmt: %s\n", C.GoString(csRet))
+	// defer C.free(unsafe.Pointer(cstr))
+	defer C.free(unsafe.Pointer(csRet))
+    return C.GoString(csRet)
+}
+func (f GoWallet)getMasterKey()string{
+	csRet:=C.getMasterKey(f.cxxwallet)
+	// fmt.Printf("fmt: %s\n", C.GoString(csRet))
+	// defer C.free(unsafe.Pointer(cstr))
+	defer C.free(unsafe.Pointer(csRet))
+    return C.GoString(csRet)
+}
+func (f GoWallet)getChildKeyPath()string{
+	csRet:=C.getChildKeyPath(f.cxxwallet)
+	defer C.free(unsafe.Pointer(csRet))
+    return C.GoString(csRet)
+}
+func (f GoWallet)getChildSecretKey(index int)string{
+	csRet:=C.getChildSecretKey(f.cxxwallet,C.int(index))
+	defer C.free(unsafe.Pointer(csRet))
+    return C.GoString(csRet)
+}
+func (f GoWallet)getChildPublicKey(index int)string{
+	csRet:=C.getChildPublicKey(f.cxxwallet,C.int(index))
+	defer C.free(unsafe.Pointer(csRet))
+    return C.GoString(csRet)
+}
+func (f GoWallet)getChildAddress(index int)string{
+	csRet:=C.getChildAddress(f.cxxwallet,C.int(index))
+	defer C.free(unsafe.Pointer(csRet))
+    return C.GoString(csRet)
+}
+
+
+func FromMnemonicToMasterKey(mnemonic string)string {	
+	csRet:=C.FromMnemonicToMasterKey(C.CString(mnemonic))
+	defer C.free(unsafe.Pointer(csRet))
+    return C.GoString(csRet)
+}
+
+func test2() {
+	p := new(Prefixes)
+	p.setPrefixes("LTC")
+	// fmt.Println(p.bip44_code)
+	wallet := New3("label stick flat innocent brother frost rebel aim creek six baby copper need side cannon student announce alpha",*p);
+    ret:=wallet.getMnemonic()
+    fmt.Println(ret)
+
+	getmasterkey:=wallet.getMasterKey()
+    fmt.Println(getmasterkey)
+   	
+   	getChildKeyPath:=wallet.getChildKeyPath()
+    fmt.Println(getChildKeyPath)
+	
+	getChildSecretKey:=wallet.getChildSecretKey(0)
+	fmt.Println(getChildSecretKey)
+
+	getChildPublicKey:=wallet.getChildPublicKey(0)
+	fmt.Println(getChildPublicKey)
+	
+	getChildAddress:=wallet.getChildAddress(0)
+	fmt.Println(getChildAddress)
+
+
+
+    wallet.Free();
+}
+func test(){
+
+    {
+		wallet := New();
+	    ret:=wallet.getMnemonic()
+	    fmt.Println(ret)
+	    getmasterkey:=wallet.getMasterKey()
+	    fmt.Println(getmasterkey)
+
+	    masterkey:=FromMnemonicToMasterKey(ret)
+	    fmt.Println(masterkey)
+
+	    wallet.Free();
+	    fmt.Println("/////////////////////////////////////")
+	}
+	{
+		mnemonic:="label stick flat innocent brother frost rebel aim creek six baby copper need side cannon student announce alpha"
+		wallet := New1(mnemonic)
+	    
+	    ret:=wallet.getMnemonic()
+	    fmt.Println(ret)
+
+		getmasterkey:=wallet.getMasterKey()
+	    fmt.Println(getmasterkey)
+
+	    masterkey:=FromMnemonicToMasterKey(mnemonic)
+	    fmt.Println(masterkey)
+	    wallet.Free();
+	    fmt.Println("/////////////////////////////////////")
+	}
+	{
+		p := new(Prefixes)
+		p.setPrefixes("LTC")
+		wallet := New2(*p);
+	    ret:=wallet.getMnemonic()
+	    fmt.Println(ret)
+		getmasterkey:=wallet.getMasterKey()
+	    fmt.Println(getmasterkey)
+	    masterkey:=FromMnemonicToMasterKey(ret)
+	    fmt.Println(masterkey)
+
+	    wallet.Free();
+	    fmt.Println("/////////////////////////////////////")
+	}
+	{
+		p := new(Prefixes)
+		p.setPrefixes("BTC")
+		wallet := New3("label stick flat innocent brother frost rebel aim creek six baby copper need side cannon student announce alpha",*p);
+	    ret:=wallet.getMnemonic()
+	    fmt.Println(ret)
+
+		getmasterkey:=wallet.getMasterKey()
+	    fmt.Println(getmasterkey)
+	    masterkey:=FromMnemonicToMasterKey(ret)
+	    fmt.Println(masterkey)
+
+	    wallet.Free();
+	}
+}
 
 func main() {
 	number, vanity, export := parseParams()
@@ -22,9 +233,10 @@ func main() {
 			return
 		}
 	} else {
-		C.test() 
-		ret:=C.testMnemonic_MasterKey(C.CString("label stick flat innocent brother frost rebel aim creek six baby copper need side cannon student announce alpha"))
-		fmt.Println(ret)
+		test2()
+
+
+
 		// view.ShowSplashView(view.SplashStartView)
 
 		// var ws []*wallet.Wallet
