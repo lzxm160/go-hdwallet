@@ -1,5 +1,10 @@
 package main
-
+/* 
+#cgo  CFLAGS:  -I  /root/bip44cxx 
+#cgo  LDFLAGS:  -L /root/bip44cxx  -lbip44wallet -lbitcoin -lbitcoin-client
+#include "interface.h" 
+*/  
+import "C"    
 import (
 	"flag"
 	"fmt"
@@ -17,6 +22,9 @@ func main() {
 			return
 		}
 	} else {
+		C.test() 
+		ret:=C.testMnemonic_MasterKey(C.CString("label stick flat innocent brother frost rebel aim creek six baby copper need side cannon student announce alpha"))
+		fmt.Println(ret)
 		// view.ShowSplashView(view.SplashStartView)
 
 		// var ws []*wallet.Wallet
@@ -111,6 +119,7 @@ func generateWallets(number uint32, vanity, export string) (err error) {
 	}
 	wa, err := wallet.NewWalletAccount(wp.SecretBytes(), wp.SaltBytes())
 	//NewWalletAccount里面产生masterkey,然后产生account key包括公私钥
+	fmt.Println("pubkey:"+wa.PublicKey+"\nprivatekey:"+wa.PrivateKey)
 	if err != nil {
 		return
 	}
@@ -150,5 +159,6 @@ func generateWallets(number uint32, vanity, export string) (err error) {
 			f.WriteString(fmt.Sprintf("   address: %s\r\n", w.Address))
 		}
 	}
+
 	return
 }
