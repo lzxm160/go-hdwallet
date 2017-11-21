@@ -10,9 +10,21 @@ import (
 	"flag"
 	"fmt"
 	"os"
-	// "./view"
+	// "bytes"
+	// "crypto/ecdsa"
+	// "crypto/elliptic"
+	// "crypto/hmac"
+	// "crypto/sha256"
+	// "errors"
+	// "fmt"
+	// "hash"
+	// "math/big"
 	"unsafe"
 	"./wallet"
+	"github.com/btcsuite/btcd/btcec"
+	// "github.com/ethereum/go-ethereum/crypto"
+	// "github.com/ethereum/go-ethereum/common"
+	"encoding/hex"
 )
 type GoWallet struct {
      cxxwallet C.voidstar;
@@ -129,21 +141,35 @@ func (f GoWallet)getChildAddress(index int)string{
 	defer C.free(unsafe.Pointer(csRet))
     return C.GoString(csRet)
 }
-
+func (f GoWallet)set_account(index int){
+	C.set_account(f.cxxwallet,C.int(index))
+}
+func (f GoWallet)getCurrentAccount()int{
+	csRet:=C.getCurrentAccount(f.cxxwallet)
+	// defer C.free(unsafe.Pointer(csRet))
+    return int(csRet)
+}
 
 func FromMnemonicToMasterKey(mnemonic string)string {	
 	csRet:=C.FromMnemonicToMasterKey(C.CString(mnemonic))
 	defer C.free(unsafe.Pointer(csRet))
     return C.GoString(csRet)
 }
-
+func fromHex(s string) []byte {
+	r, err := hex.DecodeString(s)
+	if err != nil {
+		panic("invalid hex in source file: " + s)
+	}
+	return r
+}
 func test2() {
 	p := new(Prefixes)
-	p.setPrefixes("LTC")
+	p.setPrefixes("BTC")
 	// fmt.Println(p.bip44_code)
 	wallet := New3("label stick flat innocent brother frost rebel aim creek six baby copper need side cannon student announce alpha",*p);
     ret:=wallet.getMnemonic()
     fmt.Println(ret)
+    wallet.set_account(2)
 
 	getmasterkey:=wallet.getMasterKey()
     fmt.Println(getmasterkey)
@@ -160,7 +186,86 @@ func test2() {
 	getChildAddress:=wallet.getChildAddress(0)
 	fmt.Println(getChildAddress)
 
+	fmt.Println("-------------------------------------")
 
+{
+	//0100000001c0f97438287f944d1ed73b5d1fe3349440cd470584847faaba109639e272e48d0000000000ffffffff0140420f00000000001976a914d3a4a0e66f494a95942e45b26561c07f81bacfd788ac00000000
+	//test sign
+	// test:=`[{"txid" : "8de472e2399610baaa7f84840547cd409434e31f5d3bd71e4d947f283874f9c0","vout":0}]" "{"mzp267vBXdD5Q79Gnx26LsH2r2e7uYDMyt":0.01}`
+	pkBytes:=[]byte(getChildSecretKey)
+	privKey, pubKey := btcec.PrivKeyFromBytes(btcec.S256(), pkBytes)
+	// key, _ := crypto.HexToECDSA()
+	msgHash := fromHex("0100000001c0f97438287f944d1ed73b5d1fe3349440cd470584847faaba109639e272e48d0000000000ffffffff0140420f00000000001976a914d3a4a0e66f494a95942e45b26561c07f81bacfd788ac00000000")
+	// msgHash :=[]byte(test)
+	// signRFC6979(privateKey *PrivateKey, hash []byte) (*Signature, error)
+	sig,_:=privKey.Sign(msgHash)
+	// sig := Signature{
+	// 	R: fromHex("fef45d2892953aa5bbcdb057b5e98b208f1617a7498af7eb765574e29b5d9c2c"),
+	// 	S: fromHex("d47563f52aac6b04b55de236b7c515eb9311757db01e02cff079c3ca6efb063f"),
+	// }
+	out:=sig.Serialize()
+	fmt.Println(hex.EncodeToString(out))
+	fmt.Println(len(hex.EncodeToString(out)))
+	if !sig.Verify(msgHash, pubKey) {
+		fmt.Println("Signature failed to verify")
+	}
+}
+	{
+		// kh := getChildSecretKey
+		// k0, _ := crypto.HexToECDSA(kh)
+
+		// msg0 := crypto.Keccak256([]byte("foo"))
+		// sig0, _ := Sign(msg0, k0)
+
+		// // msg1 := common.FromHex("0000000000000000000000000000000122311")
+		// // sig1, _ := Sign(msg1, k0)
+
+		// fmt.Printf("msg: %x\nprivkey: %s\nsig: %x\n", msg0, k0, sig0)
+		// fmt.Printf("msg: %x\nprivkey: %s\nsig: %x\n", msg1, k0, sig1)
+	}
+
+		fmt.Println("********************************************")
+	
+	{
+		// fmt.Println(getChildSecretKey)
+		// fmt.Println(getChildAddress)
+		// key, _ := crypto.HexToECDSA(getChildSecretKey)
+		// addr := common.HexToAddress(getChildAddress)
+
+		// fmt.Printf("\n\naddr: %s\n\n", addr.Hex())
+
+		// msg := crypto.Keccak256([]byte("foo"))
+		// sig, err := Sign(msg, key)
+		// if err != nil {
+		// 	fmt.Printf("Sign error: %s\n", err)
+		// }
+		// fmt.Printf("msg: %x\nprivkey: %s\n\nsig: %x\n", msg, key, sig)
+
+		// fmt.Println("********************************************")
+		// recoveredPub, err := crypto.Ecrecover(msg, sig)
+		// if err != nil {
+		// 	fmt.Printf("ECRecover error: %s\n", err)
+		// }
+		// pubKey := crypto.ToECDSAPub(recoveredPub)
+		// // genAddr := PubkeyToAddress(key.PublicKey)
+		// fmt.Printf("pubkey:%s\n\n",pubKey)
+		// recoveredAddr := common.BytesToAddress(crypto.FromECDSAPub(pubKey))
+		// if addr != recoveredAddr {
+		// 	fmt.Printf("Address mismatch: want: %x have: %x\n", addr, recoveredAddr)
+		// }
+		// fmt.Println("********************************************")
+		// // should be equal to SigToPub
+		// recoveredPub2, err := SigToPub(msg, sig)
+		// if err != nil {
+		// 	fmt.Printf("ECRecover error: %s\n", err)
+		// }
+		// fmt.Printf("pubkey:%s\n",recoveredPub2)
+		// // recoveredAddr2 := crypto.PubkeyToAddress(recoveredPub2.PublicKey)
+		// recoveredAddr2 := common.BytesToAddress(crypto.FromECDSAPub(recoveredPub2))
+		// if addr != recoveredAddr2 {
+		// 	fmt.Printf("Address mismatch: want: %s have: %x\n", addr.Hex(), recoveredAddr2)
+		// }
+	}
 
     wallet.Free();
 }
