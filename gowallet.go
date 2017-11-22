@@ -149,7 +149,11 @@ func (f GoWallet)getCurrentAccount()int{
 	// defer C.free(unsafe.Pointer(csRet))
     return int(csRet)
 }
-
+func (f GoWallet)createrawtransaction(reqjson string)string{
+	csRet:=C.createrawtransaction(f.cxxwallet,C.CString(reqjson))
+	// defer C.free(unsafe.Pointer(csRet))
+    return C.GoString(csRet)
+}
 func FromMnemonicToMasterKey(mnemonic string)string {	
 	csRet:=C.FromMnemonicToMasterKey(C.CString(mnemonic))
 	defer C.free(unsafe.Pointer(csRet))
@@ -189,26 +193,29 @@ func test2() {
 	fmt.Println("-------------------------------------")
 
 {
+	reqjson:=`"[{"txid":"6c3f611cbd624e8a094f08b10f849b765d3548c13ace1704de050a44f504caff","vout":0}]" "{"mxu9tvJsuZq1rxiaevcUJkuu6mv2LFhpSr":0.1}"`
+	ret:=wallet.createrawtransaction(reqjson)
+	fmt.Println(ret)
 	//0100000001c0f97438287f944d1ed73b5d1fe3349440cd470584847faaba109639e272e48d0000000000ffffffff0140420f00000000001976a914d3a4a0e66f494a95942e45b26561c07f81bacfd788ac00000000
 	//test sign
 	// test:=`[{"txid" : "8de472e2399610baaa7f84840547cd409434e31f5d3bd71e4d947f283874f9c0","vout":0}]" "{"mzp267vBXdD5Q79Gnx26LsH2r2e7uYDMyt":0.01}`
-	pkBytes:=[]byte(getChildSecretKey)
-	privKey, pubKey := btcec.PrivKeyFromBytes(btcec.S256(), pkBytes)
-	// key, _ := crypto.HexToECDSA()
-	msgHash := fromHex("0100000001c0f97438287f944d1ed73b5d1fe3349440cd470584847faaba109639e272e48d0000000000ffffffff0140420f00000000001976a914d3a4a0e66f494a95942e45b26561c07f81bacfd788ac00000000")
-	// msgHash :=[]byte(test)
-	// signRFC6979(privateKey *PrivateKey, hash []byte) (*Signature, error)
-	sig,_:=privKey.Sign(msgHash)
-	// sig := Signature{
-	// 	R: fromHex("fef45d2892953aa5bbcdb057b5e98b208f1617a7498af7eb765574e29b5d9c2c"),
-	// 	S: fromHex("d47563f52aac6b04b55de236b7c515eb9311757db01e02cff079c3ca6efb063f"),
+	// pkBytes:=[]byte(getChildSecretKey)
+	// privKey, pubKey := btcec.PrivKeyFromBytes(btcec.S256(), pkBytes)
+	// // key, _ := crypto.HexToECDSA()
+	// msgHash := fromHex("0100000001c0f97438287f944d1ed73b5d1fe3349440cd470584847faaba109639e272e48d0000000000ffffffff0140420f00000000001976a914d3a4a0e66f494a95942e45b26561c07f81bacfd788ac00000000")
+	// // msgHash :=[]byte(test)
+	// // signRFC6979(privateKey *PrivateKey, hash []byte) (*Signature, error)
+	// sig,_:=privKey.Sign(msgHash)
+	// // sig := Signature{
+	// // 	R: fromHex("fef45d2892953aa5bbcdb057b5e98b208f1617a7498af7eb765574e29b5d9c2c"),
+	// // 	S: fromHex("d47563f52aac6b04b55de236b7c515eb9311757db01e02cff079c3ca6efb063f"),
+	// // }
+	// out:=sig.Serialize()
+	// fmt.Println(hex.EncodeToString(out))
+	// fmt.Println(len(hex.EncodeToString(out)))
+	// if !sig.Verify(msgHash, pubKey) {
+	// 	fmt.Println("Signature failed to verify")
 	// }
-	out:=sig.Serialize()
-	fmt.Println(hex.EncodeToString(out))
-	fmt.Println(len(hex.EncodeToString(out)))
-	if !sig.Verify(msgHash, pubKey) {
-		fmt.Println("Signature failed to verify")
-	}
 }
 	{
 		// kh := getChildSecretKey
