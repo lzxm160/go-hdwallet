@@ -1,10 +1,10 @@
 package main
 /* 
 #cgo  CFLAGS:  -I  /root/bip44cxx 
-#cgo  LDFLAGS:  -L /root/bip44cxx  -L /root/bitcoin-0.15.1/src -L /root/bitcoin-0.15.1/src/crypto -lbip44wallet -lbitcoin -lbitcoin-client -lbitcoin_server -lbitcoin_consensus -lbitcoin_crypto -lstdc++ -lboost_filesystem -lboost_system -lboost_thread -lm -lsecp256k1
+#cgo  LDFLAGS:  -L /root/bip44cxx  -L /root/bitcoin-0.15.1/src -L /root/bitcoin-0.15.1/src/crypto -lbip44wallet 
 #include <stdlib.h>
 #include "interface.h" 
-#include "interface2.h"
+
 */  
 import "C"    
 import (
@@ -26,6 +26,8 @@ import (
 	// "github.com/ethereum/go-ethereum/crypto"
 	// "github.com/ethereum/go-ethereum/common"
 	"encoding/hex"
+	"github.com/btcsuite/btcd/btcjson"
+	"github.com/btcsuite/btcd"
 )
 type GoWallet struct {
      cxxwallet C.voidstar;
@@ -194,9 +196,26 @@ func test2() {
 	fmt.Println("-------------------------------------")
 
 {
-	reqjson:=`"[{"txid":"6c3f611cbd624e8a094f08b10f849b765d3548c13ace1704de050a44f504caff","vout":0}]" "{"mxu9tvJsuZq1rxiaevcUJkuu6mv2LFhpSr":0.1}"`
-	ret:=wallet.createrawtransaction(reqjson)
+	//use btcd
+	txInputs := []btcjson.TransactionInput{
+					{Txid: "123", Vout: 1},
+				}
+				amounts := map[string]float64{"456": .0123}
+	cmd:=btcjson.NewCreateRawTransactionCmd(txInputs, amounts, nil)
+	// func HandleCreateRawTransaction(s *rpcServer, cmd interface{}, closeChan <-chan struct{}) (interface{}, error)
+	closeChan:=make(chan,1)
+	ret,err:=btcd.HandleCreateRawTransaction(nil,cmd,closeChan)
+	if err!=nil{
+		fmt.Println(err)
+	}
 	fmt.Println(ret)
+
+
+
+
+	// reqjson:=`"[{"txid":"6c3f611cbd624e8a094f08b10f849b765d3548c13ace1704de050a44f504caff","vout":0}]" "{"mxu9tvJsuZq1rxiaevcUJkuu6mv2LFhpSr":0.1}"`
+	// ret:=wallet.createrawtransaction(reqjson)
+	// fmt.Println(ret)
 	//0100000001c0f97438287f944d1ed73b5d1fe3349440cd470584847faaba109639e272e48d0000000000ffffffff0140420f00000000001976a914d3a4a0e66f494a95942e45b26561c07f81bacfd788ac00000000
 	//test sign
 	// test:=`[{"txid" : "8de472e2399610baaa7f84840547cd409434e31f5d3bd71e4d947f283874f9c0","vout":0}]" "{"mzp267vBXdD5Q79Gnx26LsH2r2e7uYDMyt":0.01}`
