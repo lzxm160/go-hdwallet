@@ -1,9 +1,10 @@
 package main
 /* 
 #cgo  CFLAGS:  -I  /root/bip44cxx 
-#cgo  LDFLAGS:  -L /root/bip44cxx  -lbip44wallet -lbitcoin -lbitcoin-client
+#cgo  LDFLAGS:  -L /root/bip44cxx  -lbip44wallet -lbitcoin -lbitcoin-client -lbitcoin_server
 #include <stdlib.h>
 #include "interface.h" 
+#include "interface2.h"
 */  
 import "C"    
 import (
