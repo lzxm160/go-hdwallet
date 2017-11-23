@@ -1,7 +1,7 @@
 package main
 /* 
 #cgo  CFLAGS:  -I  /root/bip44cxx 
-#cgo  LDFLAGS:  -L /root/bip44cxx  -L /root/bitcoin-0.15.1/src -L /root/bitcoin-0.15.1/src/crypto -lbip44wallet -lbitcoin -lbitcoin-client -lbitcoin_server -lbitcoin_consensus -lbitcoin_common -lbitcoin_cli -lbitcoin_crypto -lstdc++ -lboost_filesystem
+#cgo  LDFLAGS:  -L /root/bip44cxx  -L /root/bitcoin-0.15.1/src -L /root/bitcoin-0.15.1/src/crypto -lbip44wallet -lbitcoin -lbitcoin-client -lbitcoin_server -lbitcoin_consensus -lbitcoin_common -lbitcoin_cli -lbitcoin_crypto -lstdc++ -lboost_filesystem -lboost_system
 #include <stdlib.h>
 #include "interface.h" 
 #include "interface2.h"
