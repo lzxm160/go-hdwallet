@@ -153,11 +153,11 @@ func (f GoWallet)getCurrentAccount()int{
 	// defer C.free(unsafe.Pointer(csRet))
     return int(csRet)
 }
-func (f GoWallet)createrawtransaction(reqjson string)string{
-	csRet:=C.createrawtransaction(f.cxxwallet,C.CString(reqjson))
-	// defer C.free(unsafe.Pointer(csRet))
-    return C.GoString(csRet)
-}
+// func (f GoWallet)createrawtransaction(reqjson string)string{
+// 	csRet:=C.createrawtransaction(f.cxxwallet,C.CString(reqjson))
+// 	// defer C.free(unsafe.Pointer(csRet))
+//     return C.GoString(csRet)
+// }
 func FromMnemonicToMasterKey(mnemonic string)string {	
 	csRet:=C.FromMnemonicToMasterKey(C.CString(mnemonic))
 	defer C.free(unsafe.Pointer(csRet))
