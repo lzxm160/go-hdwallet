@@ -489,7 +489,7 @@ func generateWallets(number uint32, vanity, export string) (err error) {
 	}
 	// var ws []*localwallet.Wallet
 	if vanity == "" {
-		ws, err = wa.GenerateWallets(0, uint32(number))
+		ws, err := wa.GenerateWallets(0, uint32(number))
 		if err != nil {
 			return
 		}
