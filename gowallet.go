@@ -1,7 +1,7 @@
 package main
 /* 
 #cgo  CFLAGS:  -I  /root/bip44cxx 
-#cgo  LDFLAGS:  -L ./lib -lbip44wallet
+#cgo  LDFLAGS:  -L /root/bip44cxx -lbip44wallet
 #include <stdlib.h>
 #include "interface.h"
 */  
