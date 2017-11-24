@@ -223,7 +223,7 @@ func test2() {
 	// pkh := btcutil.Hash160(wif.SerializePubKey())
 	privforcreatewallet:="cVJiFesQn1duqM6RThR3N8oXL6xkYFo1r5h4PtCaXV3qXkxd3DBT"
 	wif,_:=btcutil.DecodeWIF(privforcreatewallet)
-
+	fmt.Println("what")
 	// func CreateNewWallet(pubPassphrase, privPassphrase, seed []byte) (*Wallet, error) {
 	wl,err:=btcdwallet.CreateNewWallet(wif.SerializePubKey(),[]byte(privforcreatewallet),nil)
 	if err!=nil{
