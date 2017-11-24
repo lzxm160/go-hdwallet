@@ -20,7 +20,7 @@ import (
 	// "hash"
 	// "math/big"
 	"unsafe"
-	www "./wallet"
+	// www "./wallet"
 	// "github.com/btcsuite/btcd/btcec"
 	// "github.com/ethereum/go-ethereum/crypto"
 	// "github.com/ethereum/go-ethereum/common"
