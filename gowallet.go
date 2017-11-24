@@ -20,7 +20,7 @@ import (
 	// "hash"
 	// "math/big"
 	"unsafe"
-	// www "./wallet"
+	localwallet "./wallet"
 	// "github.com/btcsuite/btcd/btcec"
 	// "github.com/ethereum/go-ethereum/crypto"
 	// "github.com/ethereum/go-ethereum/common"
@@ -477,17 +477,17 @@ func generateWallets(number uint32, vanity, export string) (err error) {
 	// view.ShowSplashView(view.SplashStartView)
 	// view.ShowSplashView(view.SplashCreateView)
 	// wp, err := view.InputNewParameters(3)
-	wp, err := wallet.InputNewParameters(3)
+	wp, err := localwallet.InputNewParameters(3)
 	if err != nil {
 		return
 	}
-	wa, err := wallet.NewWalletAccount(wp.SecretBytes(), wp.SaltBytes())
+	wa, err := localwallet.NewWalletAccount(wp.SecretBytes(), wp.SaltBytes())
 	//NewWalletAccount里面产生masterkey,然后产生account key包括公私钥
 	fmt.Println("pubkey:"+wa.PublicKey+"\nprivatekey:"+wa.PrivateKey)
 	if err != nil {
 		return
 	}
-	var ws []*wallet.Wallet
+	// var ws []*localwallet.Wallet
 	if vanity == "" {
 		ws, err = wa.GenerateWallets(0, uint32(number))
 		if err != nil {
