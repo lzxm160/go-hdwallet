@@ -21,7 +21,7 @@ import (
 	// "math/big"
 	"unsafe"
 	"./wallet"
-	"github.com/btcsuite/btcd/btcec"
+	// "github.com/btcsuite/btcd/btcec"
 	// "github.com/ethereum/go-ethereum/crypto"
 	// "github.com/ethereum/go-ethereum/common"
 	"encoding/hex"
