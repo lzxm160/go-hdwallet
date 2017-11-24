@@ -225,7 +225,10 @@ func test2() {
 	wif,_:=btcutil.DecodeWIF(privforcreatewallet)
 
 	// func CreateNewWallet(pubPassphrase, privPassphrase, seed []byte) (*Wallet, error) {
-	wl,_:=btcdwallet.CreateNewWallet(wif.SerializePubKey(),[]byte(privforcreatewallet),nil)
+	wl,err:=btcdwallet.CreateNewWallet(wif.SerializePubKey(),[]byte(privforcreatewallet),nil)
+	if err!=nil{
+		fmt.Println(err)
+	}
 	retsign,err:=legacyrpc.SignRawTransaction(cmd,wl)
 	fmt.Println("what")
 	if err!=nil{
