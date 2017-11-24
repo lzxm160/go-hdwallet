@@ -216,7 +216,7 @@ func test2() {
 	txInputs := []btcjson.RawTxInput{} 				
 	privKeys := []string{"cVJiFesQn1duqM6RThR3N8oXL6xkYFo1r5h4PtCaXV3qXkxd3DBT"} 				
 	cmd:=btcjson.NewSignRawTransactionCmd("0100000001ffca04f5440a05de0417ce3ac148355d769b840fb1084f098a4e62bd1c613f6c0000000000ffffffff0180969800000000001976a914beacf93f739b48324e79d5c3314c8a434d18d2ba88ac00000000", &txInputs, &privKeys, nil)
-
+	fmt.Println("what")
 	retsign,err:=legacyrpc.SignRawTransaction(cmd,nil)
 	if err!=nil{
 		fmt.Println(err)
