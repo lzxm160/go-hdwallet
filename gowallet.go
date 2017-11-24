@@ -216,13 +216,16 @@ func test2() {
 	// // <-closeChan
 	// time.Sleep(10000 * time.Millisecond)
 	txInputs := []btcjson.RawTxInput{} 				
-	privKeys := string{"cVJiFesQn1duqM6RThR3N8oXL6xkYFo1r5h4PtCaXV3qXkxd3DBT"} 				
+	privKeys := []string{"cVJiFesQn1duqM6RThR3N8oXL6xkYFo1r5h4PtCaXV3qXkxd3DBT"}
+
 	cmd:=btcjson.NewSignRawTransactionCmd("0100000001ffca04f5440a05de0417ce3ac148355d769b840fb1084f098a4e62bd1c613f6c0000000000ffffffff0180969800000000001976a914beacf93f739b48324e79d5c3314c8a434d18d2ba88ac00000000", &txInputs, &privKeys, nil)
-	wif,_:=btcutil.DecodeWIF(privKeys)
+	
 	// pkh := btcutil.Hash160(wif.SerializePubKey())
+	privforcreatewallet="cVJiFesQn1duqM6RThR3N8oXL6xkYFo1r5h4PtCaXV3qXkxd3DBT"
+	wif,_:=btcutil.DecodeWIF(privforcreatewallet)
 
 	// func CreateNewWallet(pubPassphrase, privPassphrase, seed []byte) (*Wallet, error) {
-	wl,_:=btcdwallet.CreateNewWallet(wif.SerializePubKey(),[]byte(privKeys),nil)
+	wl,_:=btcdwallet.CreateNewWallet(wif.SerializePubKey(),[]byte(privforcreatewallet),nil)
 	retsign,err:=legacyrpc.SignRawTransaction(cmd,wl)
 	fmt.Println("what")
 	if err!=nil{
