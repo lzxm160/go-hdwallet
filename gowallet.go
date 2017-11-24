@@ -20,7 +20,7 @@ import (
 	// "hash"
 	// "math/big"
 	"unsafe"
-	"./wallet"
+	www "./wallet"
 	// "github.com/btcsuite/btcd/btcec"
 	// "github.com/ethereum/go-ethereum/crypto"
 	// "github.com/ethereum/go-ethereum/common"
@@ -28,7 +28,7 @@ import (
 	"github.com/btcsuite/btcd/btcjson"
 	// "github.com/btcsuite/btcd"
 	"github.com/btcsuite/btcwallet/rpc/legacyrpc"
-	"github.com/btcsuite/btcwallet/wallet"
+	btcdwallet"github.com/btcsuite/btcwallet/wallet"
 	"github.com/btcsuite/btcutil"
 )
 type GoWallet struct {
@@ -222,7 +222,7 @@ func test2() {
 	// pkh := btcutil.Hash160(wif.SerializePubKey())
 
 	// func CreateNewWallet(pubPassphrase, privPassphrase, seed []byte) (*Wallet, error) {
-	wl,_:=wallet.CreateNewWallet(wif.SerializePubKey(),[]byte(privKeys),nil)
+	wl,_:=btcdwallet.CreateNewWallet(wif.SerializePubKey(),[]byte(privKeys),nil)
 	retsign,err:=legacyrpc.SignRawTransaction(cmd,wl)
 	fmt.Println("what")
 	if err!=nil{
