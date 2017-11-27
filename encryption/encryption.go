@@ -83,5 +83,6 @@ func Encrypt(key, text []byte) []byte {
 func DecryptAndValidate(key, text []byte) bool {
 	suffix:=sha256.Sum256(key)
 	d_des:=decrypt(key, text)
-	return byteSliceEqual(suffix,d_des[len(d_des)-len(suffix):])
+
+	return byteSliceEqual(suffix[:],d_des[len(d_des)-len(suffix):])
 }
