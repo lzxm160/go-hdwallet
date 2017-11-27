@@ -138,10 +138,11 @@ func Decrypt(keystr, textstr string) (string,error){
 }
 //用文本来验证密码是否正确
 func Validate(keystr, textstr string) bool {
-	d_des,err:=Decrypt(keystr, textstr)
+	dec,err:=Decrypt(keystr, textstr)
 	if err!=nil{
 		return false
 	}
+	d_des:=[]byte(dec)
 	key:=[]byte(keystr)
 	text, err := hex.DecodeString(textstr)
 	if err != nil {
