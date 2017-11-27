@@ -79,7 +79,11 @@ func Encrypt(key, text []byte) []byte {
 	// fmt.Println("hashKey:",hashKey)
 
 	// suffix:=sha256.Sum256(hashKey[:])
-	prefix:=encrypt(hashKey[:],text)
+	encryptStr:=make([]byte,len(text)+len(hashKey))
+	copy(encryptStr[:len(text)],text[:])
+	copy(encryptStr[len(text):],hashKey[:])
+
+	prefix:=encrypt(hashKey[:],encryptStr)
 	suffix:=sha256.Sum256(prefix)
 	// fmt.Println("prefix:",prefix)
 	// fmt.Println("suffix:",suffix)
@@ -94,7 +98,7 @@ func Encrypt(key, text []byte) []byte {
 func Decrypt(key, text []byte) []byte {
 	hashKey:=sha256.Sum256(key)
 	d_des:=decrypt(hashKey[:], text[:len(text)-len(hashKey)])
-	return d_des
+	return d_des[:len(d_des)-len(hashKey)]
 }
 //用文本来验证密码是否正确
 func Validate(key, text []byte) bool {
@@ -109,6 +113,6 @@ func Validate(key, text []byte) bool {
 	hash_des:=sha256.Sum256(d_des[:])
 	// fmt.Println("d_des:",d_des)
 	// fmt.Println("d_des:",hex.EncodeToString(d_des[:len(d_des)-len(suffix)]))
-	fmt.Println("d_des:",string(d_des))
+	fmt.Println("d_des:",string(d_des[:len(d_des)-len(hashKey)]))
 	return byteSliceEqual(text[len(text)-len(hashKey):],hash_des[:])
 }
