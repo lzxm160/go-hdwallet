@@ -98,10 +98,8 @@ func Encrypt(keystr, textstr string) (string,error) {
 	// fmt.Println("hashKey:",hashKey)
 
 	// suffix:=sha256.Sum256(hashKey[:])
-	encryptStr,err:=make([]byte,len(text)+len(hashKey))
-	if err!=nil{
-		return "",err
-	}
+	encryptStr:=make([]byte,len(text)+len(hashKey))
+	
 	copy(encryptStr[:len(text)],text[:])
 	copy(encryptStr[len(text):],hashKey[:])
 
