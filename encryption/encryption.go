@@ -84,10 +84,12 @@ func byteSliceEqual(a, b []byte) bool {
 func Encrypt(keystr, textstr string) string {
 	key, err := hex.DecodeString(keystr)
 	if err != nil {
+		fmt.Println(err)
 		return ""
 	}
 	text, err := hex.DecodeString(textstr)
 	if err != nil {
+		fmt.Println(err)
 		return ""
 	}
 	// key:=[]byte(keystr)
