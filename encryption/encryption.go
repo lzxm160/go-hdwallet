@@ -102,7 +102,7 @@ func Validate(key, text []byte) bool {
 	fmt.Println("hashKey:",hashKey)
 
 	// suffix:=sha256.Sum256(hashKey[:])
-	suffix:=sha256.Sum256(text[:len(text)-len(hashKey)])
+	suffix:=text[:len(text)-len(hashKey)]
 	fmt.Println("suffix:",suffix)
 
 	d_des:=decrypt(hashKey[:], text[:len(text)-len(hashKey)])
