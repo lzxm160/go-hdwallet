@@ -9,7 +9,7 @@ import (
 	"io"
 	// "io/ioutil"
 	"crypto/sha256"
-	// "encoding/hex"
+	"encoding/hex"
 	"errors"
 )
 
