@@ -19,12 +19,11 @@ func Test1(t *testing.T) {
 			MasterKey:       "xprv9s21ZrQH143K3d9R9oDAj9j1PkbWuUkqi4TT2RgWqTTvgmahbNW9cxccRhEWSfFPHhKar6nqGYxukp5BjrvFqCjoLTxQ9izmBmes4sSR7KH",
 		},
 	}
-
-	for _, v := range ts_data {
-		wa:= Encrypt([]byte(v.Key), []byte(v.MasterKey))
+		wa:= Encrypt([]byte("123456"), []byte("xprv9s21ZrQH143K3d9R9oDAj9j1PkbWuUkqi4TT2RgWqTTvgmahbNW9cxccRhEWSfFPHhKar6nqGYxukp5BjrvFqCjoLTxQ9izmBmes4sSR7KH"))
 		fmt.Printf("len(Encrypt):%d\n",len(wa))
 		fmt.Println("Encrypt:",wa)
-		fmt.Println("MasterKey:",v.MasterKey)
+		fmt.Println("MasterKey:xprv9s21ZrQH143K3d9R9oDAj9j1PkbWuUkqi4TT2RgWqTTvgmahbNW9cxccRhEWSfFPHhKar6nqGYxukp5BjrvFqCjoLTxQ9izmBmes4sSR7KH")
+	for _, v := range ts_data {
 		fmt.Println("-------------------------------------------------")
 		ret:=Validate([]byte(v.Key),wa)
 		if ret{
