@@ -172,8 +172,8 @@ func fromHex(s string) []byte {
 	return r
 }
 func test3() {
-	ret,err:=localwallet.CreateWalletByteRandAndPwd(nil,"123456")
-	fmt.Println(ret)
+	// ret,err:=localwallet.CreateWalletByteRandAndPwd(nil,"123456")
+	// fmt.Println(ret)
 }
 func test2() {
 	p := new(Prefixes)
