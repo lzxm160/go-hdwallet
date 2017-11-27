@@ -10,6 +10,7 @@ import (
 	// "io/ioutil"
 	"crypto/sha256"
 	// "encoding/hex"
+	"errors"
 )
 
 func encodeBase64(b []byte) []byte {
@@ -52,7 +53,7 @@ func decrypt(key, text []byte) ([]byte,error){
 	text = text[aes.BlockSize:]
 	cfb := cipher.NewCFBDecrypter(block, iv)
 	cfb.XORKeyStream(text, text)
-	return decodeBase64(text)
+	return decodeBase64(text),nil
 }
 func byteSliceEqual(a, b []byte) bool {
     if len(a) != len(b) {
