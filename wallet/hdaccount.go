@@ -35,9 +35,9 @@ import (
 
 // const hardened = 0x80000000
 
-const alphabet = "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz"
+// const alphabet = "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz"
 
-var AddressNetParams = chaincfg.MainNetParams
+// var AddressNetParams = chaincfg.MainNetParams
 
 type WalletAccount struct {
 	MasterKey string
