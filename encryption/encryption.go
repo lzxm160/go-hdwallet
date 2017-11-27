@@ -81,8 +81,9 @@ func byteSliceEqual(a, b []byte) bool {
     return true
 }
 //用密码对masterkey加密，对加密后的文本在app端保存
-func Encrypt(key, text []byte) []byte {
-
+func Encrypt(keystr, textstr string) string {
+	key:=[]byte(keystr)
+	text:=[]byte(textstr)
 	hashKey:=sha256.Sum256(key)
 	// fmt.Println("hashKey:",hashKey)
 
@@ -101,19 +102,23 @@ func Encrypt(key, text []byte) []byte {
 	copy(ret[:len(prefix)],prefix[:])
 	copy(ret[len(prefix):],suffix[:])
 	// fmt.Println("ret:",ret)
-	return ret
+	return string(ret)
 }
 //用密码对密文解密返回masterkey对应的byte数组
-func Decrypt(key, text []byte) []byte {
+func Decrypt(keystr, textstr string) string{
+	key:=[]byte(keystr)
+	text:=[]byte(textstr)
 	hashKey:=sha256.Sum256(key)
 	d_des,err:=decrypt(hashKey[:], text[:len(text)-len(hashKey)])
 	if err!=nil{
-		return []byte("")
+		return ""
 	}
-	return d_des[:len(d_des)-len(hashKey)]
+	return string(d_des[:len(d_des)-len(hashKey)])
 }
 //用文本来验证密码是否正确
-func Validate(key, text []byte) bool {
+func Validate(keystr, textstr string) bool {
+	key:=[]byte(keystr)
+	text:=[]byte(textstr)
 	hashKey:=sha256.Sum256(key)
 	// fmt.Println("hashKey:",hashKey)
 
@@ -128,6 +133,6 @@ func Validate(key, text []byte) bool {
 	hash_des:=sha256.Sum256(d_des[:])
 	// fmt.Println("d_des:",d_des)
 	// fmt.Println("d_des:",hex.EncodeToString(d_des[:len(d_des)-len(suffix)]))
-	fmt.Println("d_des:",string(d_des[:len(d_des)-len(hashKey)]))
+	// fmt.Println("d_des:",string(d_des[:len(d_des)-len(hashKey)]))
 	return byteSliceEqual(text[len(text)-len(hashKey):],hash_des[:])
 }
