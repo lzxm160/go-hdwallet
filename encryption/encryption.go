@@ -58,6 +58,8 @@ func decrypt(key, text []byte) ([]byte,error){
 	return decodeBase64(text),nil
 }
 func byteSliceEqual(a, b []byte) bool {
+	fmt.Println("a:",a)
+	fmt.Println("b:",b)
     if len(a) != len(b) {
     	fmt.Println("len")
         return false
