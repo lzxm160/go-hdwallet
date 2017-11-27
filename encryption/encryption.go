@@ -9,6 +9,7 @@ import (
 	"io"
 	// "io/ioutil"
 	"crypto/sha256"
+	"encoding/hex"
 )
 
 func encodeBase64(b []byte) []byte {
@@ -72,6 +73,7 @@ func byteSliceEqual(a, b []byte) bool {
     return true
 }
 func Encrypt(key, text []byte) []byte {
+
 	hashKey:=sha256.Sum256(key)
 	fmt.Println("hashKey:",hashKey)
 
@@ -97,5 +99,6 @@ func DecryptAndValidate(key, text []byte) bool {
 
 	d_des:=decrypt(hashKey[:], text[:len(text)-len(hashKey)])
 	fmt.Println("d_des:",d_des)
+	fmt.Println("d_des:",hex.EncodeToString(d_des[:len(d_des)-len(suffix)]))
 	return byteSliceEqual(suffix[:],d_des[len(d_des)-len(suffix):])
 }
