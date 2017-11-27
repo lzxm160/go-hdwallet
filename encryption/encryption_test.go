@@ -20,6 +20,7 @@ func Test1(t *testing.T) {
 		wa:= Encrypt([]byte(v.Key), []byte(v.MasterKey))
 		fmt.Printf("len(Encrypt):%d\n",len(wa))
 		fmt.Println("Encrypt:",wa)
+		fmt.Println("-------------------------------------------------")
 		ret:=DecryptAndValidate([]byte(v.Key),wa)
 		if ret{
 			fmt.Println("true")
