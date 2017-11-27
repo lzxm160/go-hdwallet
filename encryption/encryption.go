@@ -111,7 +111,7 @@ func Encrypt(keystr, textstr string) string {
 	ret:=make([]byte,len(prefix)+len(suffix))
 	copy(ret[:len(prefix)],prefix[:])
 	copy(ret[len(prefix):],suffix[:])
-	// fmt.Println("ret:",ret)
+	fmt.Println("ret:",ret)
 	return hex.EncodeToString(ret[:])
 }
 //用密码对密文解密返回masterkey对应的byte数组
