@@ -82,18 +82,18 @@ func byteSliceEqual(a, b []byte) bool {
 }
 //用密码对masterkey加密，对加密后的文本在app端保存
 func Encrypt(keystr, textstr string) string {
-	key, err := hex.DecodeString(keystr)
-	if err != nil {
-		fmt.Println(err)
-		return ""
-	}
-	text, err := hex.DecodeString(textstr)
-	if err != nil {
-		fmt.Println(err)
-		return ""
-	}
-	// key:=[]byte(keystr)
-	// text:=[]byte(textstr)
+	// key, err := hex.DecodeString([]byte(keystr))
+	// if err != nil {
+	// 	fmt.Println(err)
+	// 	return ""
+	// }
+	// text, err := hex.DecodeString(textstr)
+	// if err != nil {
+	// 	fmt.Println(err)
+	// 	return ""
+	// }
+	key:=[]byte(keystr)
+	text:=[]byte(textstr)
 	hashKey:=sha256.Sum256(key)
 	// fmt.Println("hashKey:",hashKey)
 
@@ -116,10 +116,11 @@ func Encrypt(keystr, textstr string) string {
 }
 //用密码对密文解密返回masterkey对应的byte数组
 func Decrypt(keystr, textstr string) string{
-	key, err := hex.DecodeString(keystr)
-	if err != nil {
-		return ""
-	}
+	// key, err := hex.DecodeString(keystr)
+	// if err != nil {
+	// 	return ""
+	// }
+	key:=[]byte(keystr)
 	text, err := hex.DecodeString(textstr)
 	if err != nil {
 		return ""
