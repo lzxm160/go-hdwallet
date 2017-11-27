@@ -26,7 +26,7 @@ func Test1(t *testing.T) {
 		fmt.Println("Encrypt:",wa)
 		fmt.Println("MasterKey:",v.MasterKey)
 		fmt.Println("-------------------------------------------------")
-		ret:=DecryptAndValidate([]byte(v.Key),wa)
+		ret:=Validate([]byte(v.Key),wa)
 		if ret{
 			fmt.Println("true")
 		}
