@@ -14,6 +14,10 @@ func Test1(t *testing.T) {
 			Key:     "123456",
 			MasterKey:       "xprv9s21ZrQH143K3d9R9oDAj9j1PkbWuUkqi4TT2RgWqTTvgmahbNW9cxccRhEWSfFPHhKar6nqGYxukp5BjrvFqCjoLTxQ9izmBmes4sSR7KH",
 		},
+		{
+			Key:     "1234565555",
+			MasterKey:       "xprv9s21ZrQH143K3d9R9oDAj9j1PkbWuUkqi4TT2RgWqTTvgmahbNW9cxccRhEWSfFPHhKar6nqGYxukp5BjrvFqCjoLTxQ9izmBmes4sSR7KH",
+		},
 	}
 
 	for _, v := range ts_data {
@@ -26,6 +30,7 @@ func Test1(t *testing.T) {
 		if ret{
 			fmt.Println("true")
 		}
+		fmt.Println("######################################################")
 	}
 }
 
