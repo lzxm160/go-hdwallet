@@ -52,7 +52,9 @@ func decrypt(key, text []byte) ([]byte,error){
 	iv := text[:aes.BlockSize]
 	text = text[aes.BlockSize:]
 	cfb := cipher.NewCFBDecrypter(block, iv)
+	fmt.Println("55")
 	cfb.XORKeyStream(text, text)
+	fmt.Println("55")
 	return decodeBase64(text),nil
 }
 func byteSliceEqual(a, b []byte) bool {
