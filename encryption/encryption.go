@@ -82,8 +82,16 @@ func byteSliceEqual(a, b []byte) bool {
 }
 //用密码对masterkey加密，对加密后的文本在app端保存
 func Encrypt(keystr, textstr string) string {
-	key:=[]byte(keystr)
-	text:=[]byte(textstr)
+	key, err := hex.DecodeString(keystr)
+	if err != nil {
+		return ""
+	}
+	text, err := hex.DecodeString(textstr)
+	if err != nil {
+		return ""
+	}
+	// key:=[]byte(keystr)
+	// text:=[]byte(textstr)
 	hashKey:=sha256.Sum256(key)
 	// fmt.Println("hashKey:",hashKey)
 
@@ -106,8 +114,14 @@ func Encrypt(keystr, textstr string) string {
 }
 //用密码对密文解密返回masterkey对应的byte数组
 func Decrypt(keystr, textstr string) string{
-	key:=[]byte(keystr)
-	text:=[]byte(textstr)
+	key, err := hex.DecodeString(keystr)
+	if err != nil {
+		return ""
+	}
+	text, err := hex.DecodeString(textstr)
+	if err != nil {
+		return ""
+	}
 	hashKey:=sha256.Sum256(key)
 	d_des,err:=decrypt(hashKey[:], text[:len(text)-len(hashKey)])
 	if err!=nil{
@@ -117,8 +131,14 @@ func Decrypt(keystr, textstr string) string{
 }
 //用文本来验证密码是否正确
 func Validate(keystr, textstr string) bool {
-	key:=[]byte(keystr)
-	text:=[]byte(textstr)
+	key, err := hex.DecodeString(keystr)
+	if err != nil {
+		return false
+	}
+	text, err := hex.DecodeString(textstr)
+	if err != nil {
+		return false
+	}
 	hashKey:=sha256.Sum256(key)
 	// fmt.Println("hashKey:",hashKey)
 
