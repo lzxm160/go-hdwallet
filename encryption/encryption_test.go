@@ -28,7 +28,9 @@ func Test1(t *testing.T) {
 		fmt.Println("-------------------------------------------------")
 		ret:=Validate([]byte(v.Key),wa)
 		if ret{
-			fmt.Println("true")
+			fmt.Println("password ok")
+		}else{
+			fmt.Println("password fail")
 		}
 		fmt.Println("######################################################")
 	}
