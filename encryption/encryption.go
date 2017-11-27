@@ -159,6 +159,6 @@ func Validate(keystr, textstr string) bool {
 	hash_des:=sha256.Sum256(d_des[:])
 	// fmt.Println("d_des:",d_des)
 	// fmt.Println("d_des:",hex.EncodeToString(d_des[:len(d_des)-len(suffix)]))
-	// fmt.Println("d_des:",string(d_des[:len(d_des)-len(hashKey)]))
+	fmt.Println("d_des:",string(d_des[:len(d_des)-len(hashKey)]))
 	return byteSliceEqual(text[len(text)-len(hashKey):],hash_des[:])
 }
