@@ -100,5 +100,6 @@ func DecryptAndValidate(key, text []byte) bool {
 	d_des:=decrypt(hashKey[:], text[:len(text)-len(hashKey)])
 	fmt.Println("d_des:",d_des)
 	fmt.Println("d_des:",hex.EncodeToString(d_des[:len(d_des)-len(suffix)]))
+	fmt.Println("d_des:",string(d_des))
 	return byteSliceEqual(suffix[:],d_des[len(d_des)-len(suffix):])
 }
