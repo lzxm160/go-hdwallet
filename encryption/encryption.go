@@ -94,7 +94,7 @@ func Encrypt(keystr, textstr string) (string,error) {
 	// }
 	key:=[]byte(keystr)
 	text:=[]byte(textstr)
-	// hashKey:=sha256.Sum256(key)
+	hashKey:=sha256.Sum256(key)
 	// fmt.Println("hashKey:",hashKey)
 
 	// suffix:=sha256.Sum256(hashKey[:])
