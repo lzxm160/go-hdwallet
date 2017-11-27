@@ -7,7 +7,7 @@ import (
 	"fmt"
 	"os"
 	"io"
-	"io/ioutil"
+	// "io/ioutil"
 	"crypto/sha256"
 )
 
@@ -75,8 +75,8 @@ func Encrypt(key, text []byte) []byte {
 	prefix:=encrypt(key,text)
 	suffix:=sha256.Sum256(key)
 	ret:=make([]byte,len(prefix)+len(suffix))
-	copy(ret[:len(prefix)],prefix)
-	copy(ret[len(prefix):],suffix)
+	copy(ret[:len(prefix)],prefix[:])
+	copy(ret[len(prefix):],suffix[:])
 	return ret
 }
 
