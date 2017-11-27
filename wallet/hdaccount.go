@@ -33,7 +33,7 @@ import (
 	"github.com/ethereum/go-ethereum/rlp"
 )
 
-const hardened = 0x80000000
+// const hardened = 0x80000000
 
 const alphabet = "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz"
 
