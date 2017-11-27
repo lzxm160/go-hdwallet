@@ -17,13 +17,14 @@ func encodeBase64(b []byte) []byte {
 	return []byte(base64.StdEncoding.EncodeToString(b))
 }
 
-func decodeBase64(b []byte) []byte {
+func decodeBase64(b []byte) ([]byte,error) {
 	data, err := base64.StdEncoding.DecodeString(string(b))
 	if err != nil {
-		fmt.Printf("Error: Bad Key!\n")
-		os.Exit(0)
+		// fmt.Printf("Error: Bad Key!\n")
+		// os.Exit(0)
+		return []byte(""),err
 	}
-	return data
+	return data,nil
 }
 
 func encrypt(key, text []byte) []byte {
@@ -52,27 +53,27 @@ func decrypt(key, text []byte) ([]byte,error){
 	iv := text[:aes.BlockSize]
 	text = text[aes.BlockSize:]
 	cfb := cipher.NewCFBDecrypter(block, iv)
-	fmt.Println("55")
+	// fmt.Println("55")
 	cfb.XORKeyStream(text, text)
-	fmt.Println("55")
-	return decodeBase64(text),nil
+	// fmt.Println("55")
+	return decodeBase64(text)
 }
 func byteSliceEqual(a, b []byte) bool {
-	fmt.Println("a:",a)
-	fmt.Println("b:",b)
+	// fmt.Println("a:",a)
+	// fmt.Println("b:",b)
     if len(a) != len(b) {
-    	fmt.Println("len")
+    	// fmt.Println("len")
         return false
     }
 
     if (a == nil) != (b == nil) {
-    	fmt.Println("nil")
+    	// fmt.Println("nil")
         return false
     }
 
     for i, v := range a {
         if v != b[i] {
-        	fmt.Println("range")
+        	// fmt.Println("range")
             return false
         }
     }
@@ -89,7 +90,7 @@ func Encrypt(key, text []byte) []byte {
 	encryptStr:=make([]byte,len(text)+len(hashKey))
 	copy(encryptStr[:len(text)],text[:])
 	copy(encryptStr[len(text):],hashKey[:])
-	
+
 	suffix:=sha256.Sum256(encryptStr)
 	prefix:=encrypt(hashKey[:],encryptStr)
 	
