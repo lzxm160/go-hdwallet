@@ -89,9 +89,10 @@ func Encrypt(key, text []byte) []byte {
 	encryptStr:=make([]byte,len(text)+len(hashKey))
 	copy(encryptStr[:len(text)],text[:])
 	copy(encryptStr[len(text):],hashKey[:])
-
+	
+	suffix:=sha256.Sum256(encryptStr)
 	prefix:=encrypt(hashKey[:],encryptStr)
-	suffix:=sha256.Sum256(prefix)
+	
 	// fmt.Println("prefix:",prefix)
 	// fmt.Println("suffix:",suffix)
 
