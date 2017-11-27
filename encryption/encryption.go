@@ -5,7 +5,7 @@ import (
 	"crypto/rand"
 	"encoding/base64"
 	"fmt"
-	"os"
+	// "os"
 	"io"
 	// "io/ioutil"
 	"crypto/sha256"
