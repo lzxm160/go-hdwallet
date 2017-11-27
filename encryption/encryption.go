@@ -73,8 +73,8 @@ func byteSliceEqual(a, b []byte) bool {
 }
 func Encrypt(key, text []byte) []byte {
 	hashKey:=sha256.Sum256(key)
-	suffix:=sha256.Sum256(hashKey)
-	prefix:=encrypt(suffix,text)
+	suffix:=sha256.Sum256(hashKey[:])
+	prefix:=encrypt(suffix[:],text)
 	ret:=make([]byte,len(prefix)+len(suffix))
 	copy(ret[:len(prefix)],prefix[:])
 	copy(ret[len(prefix):],suffix[:])
@@ -83,7 +83,7 @@ func Encrypt(key, text []byte) []byte {
 
 func DecryptAndValidate(key, text []byte) bool {
 	hashKey:=sha256.Sum256(key)
-	suffix:=sha256.Sum256(hashKey)
+	suffix:=sha256.Sum256(hashKey[:])
 	d_des:=decrypt(hashKey, text)
 
 	return byteSliceEqual(suffix[:],d_des[len(d_des)-len(suffix):])
