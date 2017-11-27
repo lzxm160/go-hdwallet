@@ -159,9 +159,13 @@ func Validate(keystr, textstr string) bool {
 	// if err!=nil{
 	// 	return false
 	// }
-	hash_des:=sha256.Sum256(d_des[:])
+	hashstr:=make([]byte,len(d_des)+len(hashKey))
+	copy(hashstr[:len(d_des)],d_des[:])
+	copy(hashstr[len(d_des):],hashKey[:])
+
+	hash_des:=sha256.Sum256(hashstr[:])
 	// fmt.Println("d_des:",d_des)
 	// fmt.Println("d_des:",hex.EncodeToString(d_des[:len(d_des)-len(suffix)]))
-	fmt.Println("d_des:",string(d_des[:len(d_des)-len(hashKey)]))
+	fmt.Println("d_des:",dec)
 	return byteSliceEqual(text[len(text)-len(hashKey):],hash_des[:])
 }
