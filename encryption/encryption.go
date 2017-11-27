@@ -110,5 +110,5 @@ func Validate(key, text []byte) bool {
 	// fmt.Println("d_des:",d_des)
 	// fmt.Println("d_des:",hex.EncodeToString(d_des[:len(d_des)-len(suffix)]))
 	fmt.Println("d_des:",string(d_des))
-	return byteSliceEqual(text[len(text)-len(hashKey):],hash_des)
+	return byteSliceEqual(text[len(text)-len(hashKey):],hash_des[:])
 }
