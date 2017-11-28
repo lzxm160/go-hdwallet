@@ -104,7 +104,8 @@ func Encrypt(keystr, textstr string) (string,error) {
 	copy(encryptStr[len(text):],hashKey[:])
 
 	suffix:=sha256.Sum256(encryptStr)
-	prefix,err:=encrypt(hashKey[:],encryptStr)
+	constEncKey:=sha256.Sum256([]byte("K3d9R9oDAj9j1PkbWuUkqi4TT2RgWqTTvgmahbNW9cxccRhEWS"))
+	prefix,err:=encrypt(constEncKey[:],encryptStr)
 	if err!=nil{
 		return "",err
 	}
@@ -119,27 +120,28 @@ func Encrypt(keystr, textstr string) (string,error) {
 }
 
 //用密码对密文解密返回masterkey对应的byte数组
-func Decrypt(keystr, textstr string) (string,error){
+func Decrypt(textstr string) (string,error){
 	// key, err := hex.DecodeString(keystr)
 	// if err != nil {
 	// 	return ""
 	// }
-	key:=[]byte(keystr)
+	// key:=[]byte(keystr)
 	text, err := hex.DecodeString(textstr)
 	if err != nil {
 		return "",err
 	}
 	// fmt.Println("text:",text)
-	hashKey:=sha256.Sum256(key)
-	d_des,err:=decrypt(hashKey[:], text[:len(text)-len(hashKey)])
+	// hashKey:=sha256.Sum256(key)
+	constEncKey:=sha256.Sum256([]byte("K3d9R9oDAj9j1PkbWuUkqi4TT2RgWqTTvgmahbNW9cxccRhEWS"))
+	d_des,err:=decrypt(constEncKey[:], text[:len(text)-len(constEncKey)])
 	if err!=nil{
 		return "",err
 	}
-	return string(d_des[:len(d_des)-len(hashKey)]),nil
+	return string(d_des[:len(d_des)-len(constEncKey)]),nil
 }
 //用文本来验证密码是否正确
 func Validate(keystr, textstr string) bool {
-	dec,err:=Decrypt(keystr, textstr)
+	dec,err:=Decrypt(textstr)
 	if err!=nil{
 		return false
 	}
