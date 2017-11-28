@@ -112,6 +112,7 @@ func Encrypt(keystr, textstr string) string {
 	// fmt.Println("ret:",ret)
 	return hex.EncodeToString(ret[:])
 }
+
 //用密码对密文解密返回masterkey对应的byte数组
 func Decrypt(keystr, textstr string) string{
 	key, err := hex.DecodeString(keystr)
