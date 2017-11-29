@@ -49,7 +49,7 @@ func Test2(t *testing.T) {
 }
 func Test3(t *testing.T) {
 	fmt.Println("test3-------------------------------------------------")
-	wa,err:= Encrypt("1234567890", "xprv9s21ZrQH143K3M9e2Baq8wVXSMDbRhtEudJBMBB1y7EtRmYyxdHqnfGeFEUyn7CPZx82pTVE7HDTQtgW4MBE4hX6Qu1pzksZ9YyLkse7W4T")
+	wa,err:= Encrypt("123456789", "xprv9s21ZrQH143K3M9e2Baq8wVXSMDbRhtEudJBMBB1y7EtRmYyxdHqnfGeFEUyn7CPZx82pTVE7HDTQtgW4MBE4hX6Qu1pzksZ9YyLkse7W4T")
 		if err!=nil{
 			fmt.Println(err)
 		}
