@@ -2,11 +2,11 @@ package encryption
 import (
 	"crypto/aes"
 	"crypto/cipher"
-	"crypto/rand"
+	// "crypto/rand"
 	"encoding/base64"
 	"fmt"
 	// "os"
-	"io"
+	// "io"
 	// "io/ioutil"
 	"crypto/sha256"
 	"encoding/hex"
