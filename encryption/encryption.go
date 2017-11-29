@@ -2,11 +2,11 @@ package encryption
 import (
 	"crypto/aes"
 	"crypto/cipher"
-	// "crypto/rand"
+	"crypto/rand"
 	"encoding/base64"
 	"fmt"
 	// "os"
-	// "io"
+	"io"
 	// "io/ioutil"
 	"crypto/sha256"
 	"encoding/hex"
@@ -35,13 +35,13 @@ func encrypt(key, text []byte) ([]byte,error) {
 	b := encodeBase64(text)
 	ciphertext := make([]byte, aes.BlockSize+len(b))
 	iv := ciphertext[:aes.BlockSize]
-	for index, _ := range iv {
-    	iv[index] = 200
-	}
-	fmt.Println("iv:",iv)
-	// if _, err := io.ReadFull(rand.Reader, iv); err != nil {
-	// 	return []byte(""),err
+	// for index, _ := range iv {
+ //    	iv[index] = 200
 	// }
+	fmt.Println("iv:",iv)
+	if _, err := io.ReadFull(rand.Reader, iv); err != nil {
+		return []byte(""),err
+	}
 	
 	cfb := cipher.NewCFBEncrypter(block, iv)
 	cfb.XORKeyStream(ciphertext[aes.BlockSize:], b)
