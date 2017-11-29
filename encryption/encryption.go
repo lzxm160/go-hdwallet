@@ -32,14 +32,17 @@ func encrypt(key, text []byte) ([]byte,error) {
 	if err != nil {
 		return []byte(""),err
 	}
-	fmt.Println("block:",block)
 	b := encodeBase64(text)
 	ciphertext := make([]byte, aes.BlockSize+len(b))
 	iv := ciphertext[:aes.BlockSize]
-	if _, err := io.ReadFull(rand.Reader, iv); err != nil {
-		return []byte(""),err
+	for index, _ := range iv {
+    	iv[index] = 200
 	}
 	fmt.Println("iv:",iv)
+	// if _, err := io.ReadFull(rand.Reader, iv); err != nil {
+	// 	return []byte(""),err
+	// }
+	
 	cfb := cipher.NewCFBEncrypter(block, iv)
 	cfb.XORKeyStream(ciphertext[aes.BlockSize:], b)
 	return ciphertext,nil
